@@ -1,0 +1,7 @@
+name: MCDeathLink
+version: 1.0.0
+main: wins.insomnia.mcdeathlink.MCDeathLink
+description: Links player's death/respawn functionality so that all players of the same team will die if one member dies.
+author: Insomnia_Wins / Andrew
+website: https://insomniawins.github.io/
+api-version: '1.21.1'
