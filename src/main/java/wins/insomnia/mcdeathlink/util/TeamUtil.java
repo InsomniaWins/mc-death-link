@@ -9,13 +9,15 @@ import java.util.HashMap;
 
 public class TeamUtil {
 
-    private static HashMap<Player, HashMap<String, Object>> playerTeamVariables = new HashMap<>();
+    private static final HashMap<Player, HashMap<String, Object>> PLAYER_TEAM_VARIABLES = new HashMap<>();
 
     public static void killAllPlayersOnTeam(Team team, Player playerException) {
 
         for (Player player : Bukkit.getOnlinePlayers()) {
 
             Team playerTeam = player.getScoreboard().getEntityTeam(player);
+
+            if (playerTeam == null) continue;
 
             if (playerTeam.equals(team) && !player.equals(playerException)) {
 
@@ -30,31 +32,31 @@ public class TeamUtil {
     }
 
     public static void setDefaultTeamVariablesForPlayer(Player player) {
-        playerTeamVariables.put(player, new HashMap<>());
-        playerTeamVariables.get(player).put("deathShouldCauseTeamDeath", true);
-        playerTeamVariables.get(player).put("playerThatCausedTeamDeath", null);
+        PLAYER_TEAM_VARIABLES.put(player, new HashMap<>());
+        PLAYER_TEAM_VARIABLES.get(player).put("deathShouldCauseTeamDeath", true);
+        PLAYER_TEAM_VARIABLES.get(player).put("playerThatCausedTeamDeath", null);
     }
 
     public static void removePlayerFromTeamVariables(Player player) {
-        playerTeamVariables.remove(player);
+        PLAYER_TEAM_VARIABLES.remove(player);
     }
 
     public static void setPlayerTeamVariable(Player player, String variableName, Object value) {
-        if (!playerTeamVariables.containsKey(player)) {
-            playerTeamVariables.put(player, new HashMap<>());
+        if (!PLAYER_TEAM_VARIABLES.containsKey(player)) {
+            PLAYER_TEAM_VARIABLES.put(player, new HashMap<>());
         }
 
-        playerTeamVariables.get(player).put(variableName, value);
+        PLAYER_TEAM_VARIABLES.get(player).put(variableName, value);
     }
 
     @Nullable
     public static Object getPlayerTeamVariable(Player player, String variableName) {
 
-        if (!playerTeamVariables.containsKey(player)) {
+        if (!PLAYER_TEAM_VARIABLES.containsKey(player)) {
             return null;
         }
 
-        return playerTeamVariables.get(player).get(variableName);
+        return PLAYER_TEAM_VARIABLES.get(player).get(variableName);
     }
 
 }
