@@ -1,6 +1,7 @@
 package wins.insomnia.mcdeathlink.eventlisteners;
 
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -43,8 +44,17 @@ public class PlayerEvents implements Listener {
             Player playerCaused = ((Player) TeamUtil.getPlayerTeamVariable(player, "playerThatCausedTeamDeath"));
             if (playerCaused != null) {
                 String playerCausedName = playerCaused.getName();
+                Team playerTeam = player.getScoreboard().getEntityTeam(player);
 
-                event.deathMessage(player.name().append(Component.text(" died to " + playerCausedName + "'s incompetence")));
+                TextColor teamColor = playerTeam == null ? TextColor.color(255, 255, 255) : playerTeam.color();
+                TextColor whiteColor = TextColor.color(255,255,255);
+
+                Component deathMessage = Component.text(player.getName(), teamColor);
+                deathMessage = deathMessage.append(Component.text(" died to ", whiteColor));
+                deathMessage = deathMessage.append(Component.text(playerCausedName, teamColor));
+                deathMessage = deathMessage.append(Component.text("'s incompetence", whiteColor));
+
+                event.deathMessage(deathMessage);
             }
 
 

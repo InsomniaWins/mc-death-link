@@ -3,13 +3,15 @@ package wins.insomnia.mcdeathlink.util;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Team;
-
 import javax.annotation.Nullable;
 import java.util.HashMap;
 
 public class TeamUtil {
 
+    // hashmap holding variables per player to help plugin determine things like if their death should kill the entire team
     private static final HashMap<Player, HashMap<String, Object>> PLAYER_TEAM_VARIABLES = new HashMap<>();
+
+
 
     public static void killAllPlayersOnTeam(Team team, Player playerException) {
 
@@ -31,15 +33,21 @@ public class TeamUtil {
 
     }
 
+
+
     public static void setDefaultTeamVariablesForPlayer(Player player) {
         PLAYER_TEAM_VARIABLES.put(player, new HashMap<>());
         PLAYER_TEAM_VARIABLES.get(player).put("deathShouldCauseTeamDeath", true);
         PLAYER_TEAM_VARIABLES.get(player).put("playerThatCausedTeamDeath", null);
     }
 
+
+
     public static void removePlayerFromTeamVariables(Player player) {
         PLAYER_TEAM_VARIABLES.remove(player);
     }
+
+
 
     public static void setPlayerTeamVariable(Player player, String variableName, Object value) {
         if (!PLAYER_TEAM_VARIABLES.containsKey(player)) {
@@ -48,6 +56,8 @@ public class TeamUtil {
 
         PLAYER_TEAM_VARIABLES.get(player).put(variableName, value);
     }
+
+
 
     @Nullable
     public static Object getPlayerTeamVariable(Player player, String variableName) {
