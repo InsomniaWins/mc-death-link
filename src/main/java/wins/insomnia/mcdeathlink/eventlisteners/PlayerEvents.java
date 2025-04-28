@@ -9,6 +9,7 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scoreboard.Team;
+import wins.insomnia.mcdeathlink.team.DeathLinkTeam;
 import wins.insomnia.mcdeathlink.util.TeamUtil;
 
 public class PlayerEvents implements Listener {
@@ -31,6 +32,19 @@ public class PlayerEvents implements Listener {
         Boolean deathShouldCauseTeamDeath = (Boolean) TeamUtil.getPlayerTeamVariable(player, "deathShouldCauseTeamDeath");
 
         if (deathShouldCauseTeamDeath != null && deathShouldCauseTeamDeath) {
+
+
+            // check for death-link teams
+            DeathLinkTeam dlTeam = TeamUtil.getPlayerDeathLinkTeam(player);
+            if (dlTeam != null) {
+
+                TeamUtil.killAllPlayersOnTeam(dlTeam, player);
+
+            }
+
+
+
+
             // get player team
             Team playerTeam = player.getScoreboard().getEntityTeam(player);
 

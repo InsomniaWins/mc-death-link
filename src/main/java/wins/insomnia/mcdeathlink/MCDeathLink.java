@@ -8,6 +8,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import wins.insomnia.mcdeathlink.eventlisteners.PlayerEvents;
+import wins.insomnia.mcdeathlink.util.TeamUtil;
 
 public class MCDeathLink extends JavaPlugin implements Listener {
 
@@ -23,9 +24,17 @@ public class MCDeathLink extends JavaPlugin implements Listener {
 
         LifecycleEventManager<Plugin> manager = this.getLifecycleManager();
         manager.registerEventHandler(LifecycleEvents.COMMANDS, event -> {
-            final Commands commands = event.registrar();
-            LocateTeamCommand.register(commands);
+            PluginCommands.register(event.registrar());
         });
+
+
+        TeamUtil.loadTeams();
+
+    }
+
+    @Override
+    public void onDisable() {
+        saveConfig();
     }
 
     public static MCDeathLink getInstance() {
